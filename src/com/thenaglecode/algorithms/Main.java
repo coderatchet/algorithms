@@ -6,6 +6,8 @@ import org.joda.time.Period;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: jxnagl
@@ -15,26 +17,26 @@ import org.joda.time.format.PeriodFormatterBuilder;
  */
 public class Main {
     public static void main(String[] args){
-        long upTo = 10000000;
+        long upTo = Long.valueOf(ConfigurationManager.getInstance().getValue(Configuration.PRIME_UPTO));
 
 
         DateTime now = new DateTime();
-        for(long number : PrimeGenerator.getGenerator().generate(upTo)){
-            System.out.print(number + ",");
-        }
+        PrimeGenerator generator = PrimeGenerator.getGenerator();
+        System.out.println("Started prime generation using algorithm: " + generator.getName() + " up to " + upTo);
+        List<Long> primes = generator.generate(upTo);
         DateTime after = new DateTime();
+
+        System.out.println("primes found: " + primes.size());
+
         Period period = new Period(now, after);
         PeriodFormatter HHMMSSMMMFormatter = new PeriodFormatterBuilder()
                 .printZeroAlways()
                 .minimumPrintedDigits(2)
-                .appendHours().appendSeparator("-")
-                .appendMinutes().appendSeparator("-")
+                .appendHours().appendSeparator(":")
+                .appendMinutes().appendSeparator(":")
                 .appendSeconds().appendSeparator(".")
-                .appendMillis()
+                .appendMillis3Digit()
                 .toFormatter();
-
-        System.out.println("\nUsing algorithm: " + PrimeGenerator.getGenerator().getName());
-        System.out.println("Primes up to " + upTo);
         System.out.println("Took " + HHMMSSMMMFormatter.print(period) + " to generate");
     }
 }
