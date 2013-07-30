@@ -15,7 +15,7 @@ public class PGSimple2 extends PrimeGenerator {
     private static final String ALGORITHM_NAME = "PGSimple2";
 
     @Override
-    public List<Long> generate(long lim) {
+    public PrimeList generate(long lim) {
         long pp = 2;
         List<Long> ps = new ArrayList<Long>();
         ps.add(pp);
@@ -30,7 +30,7 @@ public class PGSimple2 extends PrimeGenerator {
             }
             if(test) ps.add(pp);
         }
-        return ps;
+        return new PrimeList(ps);
     }
 
     @Override

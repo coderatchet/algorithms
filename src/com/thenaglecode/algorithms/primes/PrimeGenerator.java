@@ -4,8 +4,6 @@ import com.thenaglecode.algorithms.Configuration;
 import com.thenaglecode.algorithms.ConfigurationManager;
 import com.thenaglecode.algorithms.util.Named;
 
-import java.util.List;
-
 /**
  * Created with IntelliJ IDEA.
  * User: jxnagl
@@ -36,5 +34,5 @@ public abstract class PrimeGenerator implements Named {
      * @param lim the number to go up to
      * @return a list of prime numbers up until lim
      */
-    public abstract List<Long> generate(long lim);
+    public abstract PrimeList generate(long lim);
 }

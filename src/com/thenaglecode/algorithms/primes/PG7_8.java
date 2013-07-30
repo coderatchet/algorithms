@@ -41,7 +41,7 @@ public class PG7_8 extends PrimeGenerator {
      * {@inheritDoc}
      */
     @Override
-    public List<Long> generate(long lim) {
+    public PrimeList generate(long lim) {
         /*Get the square root of the upper limit. This will be the upper limit of the test prime array
         for primes used to verify the primacy of any potential primes up to (lim). Primes greater than
         (sqrtlim) will be placed in an array for extended primes, (xp), not needed for the verification
@@ -334,7 +334,7 @@ public class PG7_8 extends PrimeGenerator {
             xp.add(0, a);
         }
 
-        return xp;
+        return new PrimeList(xp);
     }
 
     /**

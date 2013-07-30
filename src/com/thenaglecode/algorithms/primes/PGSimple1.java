@@ -24,7 +24,7 @@ public class PGSimple1 extends PrimeGenerator {
      * {@inheritDoc}
      */
     @Override
-    public List<Long> generate(long lim) {
+    public PrimeList generate(long lim) {
         List<Long> ps = new ArrayList<Long>();
         long pp = 2l;
         ps.add(pp);
@@ -39,7 +39,7 @@ public class PGSimple1 extends PrimeGenerator {
             }
             if(addMe) ps.add(pp);
         }
-        return ps;
+        return new PrimeList(ps);
     }
 
     @Override

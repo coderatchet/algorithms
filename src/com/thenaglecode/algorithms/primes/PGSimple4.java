@@ -20,7 +20,7 @@ public class PGSimple4 extends PrimeGenerator {
      * {@inheritDoc}
      */
     @Override
-    public List<Long> generate(long lim) {
+    public PrimeList generate(long lim) {
         long pp = 2;
         List<Long> ep = new LinkedList<Long>();
         ep.add(pp);
@@ -46,7 +46,7 @@ public class PGSimple4 extends PrimeGenerator {
         for(long a : ep){
             tp.add(0, a);
         }
-        return tp;
+        return new PrimeList(tp);
     }
 
     /**
