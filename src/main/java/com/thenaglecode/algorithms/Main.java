@@ -27,15 +27,14 @@ public class Main {
             PrimeList pList = generator.generate(max);
             try {
                 File primes = new File(ConfigurationManager.getInstance().getValue(Configuration.FILE_PRIMES));
-                if(primes.exists()) primes.delete();
+                if(primes.exists()) //noinspection ResultOfMethodCallIgnored
+                    primes.delete();
                 FileOutputStream fileOut = new FileOutputStream(ConfigurationManager.getInstance().getValue(Configuration.FILE_PRIMES));
                 ObjectOutputStream out = new ObjectOutputStream(fileOut);
                 out.writeObject(pList);
                 out.close();
                 fileOut.close();
                 System.out.println("Saved the primes");
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }

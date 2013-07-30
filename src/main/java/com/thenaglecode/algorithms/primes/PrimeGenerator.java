@@ -9,7 +9,6 @@ import com.thenaglecode.algorithms.util.Named;
  * User: jxnagl
  * Date: 7/25/13
  * Time: 3:59 PM
- * To change this template use File | Settings | File Templates.
  */
 public abstract class PrimeGenerator implements Named {
     private static PrimeGenerator instance;

@@ -1,5 +1,8 @@
 package com.thenaglecode.algorithms.primes;
 
+import com.thenaglecode.algorithms.primes.PrimeGenerator;
+import com.thenaglecode.algorithms.primes.PrimeList;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
