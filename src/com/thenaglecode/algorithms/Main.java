@@ -14,7 +14,6 @@ import java.io.*;
  * User: jxnagl
  * Date: 7/25/13
  * Time: 5:07 PM
- * To change this template use File | Settings | File Templates.
  */
 public class Main {
     public static void main(String[] args) {
@@ -22,7 +21,6 @@ public class Main {
 
         if (args.length > 0) {
             //gen upto number and save.
-            DateTime now = new DateTime();
             PrimeGenerator generator = PrimeGenerator.getGenerator();
             Long max = Long.valueOf(args[0]);
             System.out.println("Started prime generation using algorithm: " + generator.getName() + " up to " + max);
