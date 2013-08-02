@@ -1,4 +1,4 @@
-package com.thenaglecode.algorithms;
+package com.thenaglecode.core;
 
 import com.thenaglecode.algorithms.util.propeties.AbstractConfigurationManager;
 
