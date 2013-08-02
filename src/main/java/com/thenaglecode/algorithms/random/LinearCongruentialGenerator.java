@@ -9,6 +9,7 @@ package com.thenaglecode.algorithms.random;
 public class LinearCongruentialGenerator implements RandomNumberGenerator {
 
     private static final Long M = (long) Math.pow(2, 48);
+    private static final Long MASK = M-1; // we just and the last 48 bits of the next state.
     private static final Long A = 25214903917l;
     private static final Long C = 11l;
     private long state;
@@ -22,12 +23,17 @@ public class LinearCongruentialGenerator implements RandomNumberGenerator {
     }
 
     private long nextState(){
-       return state = (A * state + C) & M;
+       return state = (A * state + C) & MASK;
     }
 
     @Override
     public synchronized short nextShort() {
         return (short) nextState();
+    }
+
+    @Override
+    public short nextShort(short upToExcluding) {
+        return (short) Math.abs(nextState() % upToExcluding);
     }
 
     @Override
@@ -37,7 +43,7 @@ public class LinearCongruentialGenerator implements RandomNumberGenerator {
 
     @Override
     public synchronized int nextInt(int upToExcluding) {
-        return (int) nextState() % upToExcluding;
+        return (int) Math.abs(nextState() % upToExcluding);
     }
 
     @Override
@@ -47,16 +53,16 @@ public class LinearCongruentialGenerator implements RandomNumberGenerator {
 
     @Override
     public synchronized long nextLong(long upToExcluding) {
-        return nextState() % upToExcluding;
+        return Math.abs(nextState() % upToExcluding);
     }
 
     @Override
     public float nextFloat() {
-        return (float) nextState() / M;
+        return (float) Math.abs(nextState() / M);
     }
 
     @Override
     public double nextDouble() {
-        return (double) nextState() / M;
+        return (double) Math.abs(nextState() / M);
     }
 }

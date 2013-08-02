@@ -10,7 +10,8 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:g="http://java.sun.com/jstl/sql">
 
 <h:head>
     <title>Simple JSF Facelets page</title>
@@ -19,9 +20,25 @@
 <h:body>
     <h:form>
         <div>
-        <h3>Generate the next random number:</h3>
-            <h:commandButton action="#{navigationController.moveToRandomGeneratorPage}"
-                    value="Generate"/>
+            <h:inputText id="upto" value="#{random.upto}">
+            </h:inputText>
+            <h:selectOneMenu value="#{random.type}">
+                <f:selectItems value="#{random.types}"
+                               var="t"
+                               itemValue="#{t}"
+                               itemLabel="#{t.label}"
+                               itemDescription="#{t.description}"
+                               itemDisabled="#{t.disabled}"
+                               itemLabelEscaped="#{t.escape}"/>
+            </h:selectOneMenu>
+            <h:messages style="color : red; " fatalStyle="color: purple" errorStyle="color: red"/>
+        </div>
+        <div>
+            <table><tbody><tr>
+                <td><h3>Generate the next random number:</h3></td>
+                <td><h:outputText value="#{random.value}"/></td>
+            </tr></tbody></table>
+            <h:commandButton action="#{random.generateNextNumber()}" value="Generate"/>
         </div>
     </h:form>
 </h:body>

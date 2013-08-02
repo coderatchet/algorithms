@@ -9,6 +9,7 @@ package com.thenaglecode.algorithms.random;
  */
 public interface RandomNumberGenerator {
     public short nextShort();
+    public short nextShort(short upto);
     public int nextInt();
     public int nextInt(int upToExcluding);
     public long nextLong();
