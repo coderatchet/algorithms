@@ -1,4 +1,4 @@
-package com.thenaglecode.algorithms.util.propeties;
+package com.thenaglecode.core.util.propeties;
 
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;

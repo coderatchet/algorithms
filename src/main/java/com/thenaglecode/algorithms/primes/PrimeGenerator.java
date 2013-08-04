@@ -2,7 +2,7 @@ package com.thenaglecode.algorithms.primes;
 
 import com.thenaglecode.algorithms.Configuration;
 import com.thenaglecode.algorithms.ConfigurationManager;
-import com.thenaglecode.algorithms.util.Named;
+import com.thenaglecode.core.util.Named;
 
 /**
  * Created with IntelliJ IDEA.

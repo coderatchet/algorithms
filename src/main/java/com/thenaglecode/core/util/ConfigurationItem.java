@@ -1,4 +1,4 @@
-package com.thenaglecode.algorithms.util;
+package com.thenaglecode.core.util;
 
 /**
  * Created with IntelliJ IDEA.

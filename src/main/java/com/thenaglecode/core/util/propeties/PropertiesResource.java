@@ -1,4 +1,4 @@
-package com.thenaglecode.algorithms.util.propeties;
+package com.thenaglecode.core.util.propeties;
 
 import javax.enterprise.util.Nonbinding;
 import javax.xml.ws.BindingType;

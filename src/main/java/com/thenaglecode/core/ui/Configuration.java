@@ -1,6 +1,6 @@
 package com.thenaglecode.core.ui;
 
-import com.thenaglecode.algorithms.util.ConfigurationItem;
+import com.thenaglecode.core.util.ConfigurationItem;
 
 /**
  * Created with IntelliJ IDEA.

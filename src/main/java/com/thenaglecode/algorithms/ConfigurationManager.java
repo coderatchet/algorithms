@@ -1,6 +1,6 @@
 package com.thenaglecode.algorithms;
 
-import com.thenaglecode.algorithms.util.propeties.AbstractConfigurationManager;
+import com.thenaglecode.core.util.propeties.AbstractConfigurationManager;
 
 /**
  * Created with IntelliJ IDEA.

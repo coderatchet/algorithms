@@ -1,6 +1,6 @@
-package com.thenaglecode.algorithms.util.propeties;
+package com.thenaglecode.core.util.propeties;
 
-import com.thenaglecode.algorithms.util.ConfigurationItem;
+import com.thenaglecode.core.util.ConfigurationItem;
 
 import java.util.PropertyResourceBundle;
 
