@@ -5,42 +5,50 @@
   Date: 7/31/13
   Time: 2:55 PM
 -->
-<!DOCTYPE html
-        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
     <title>Simple JSF Facelets page</title>
-    <h:link rel="stylesheet" value="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css" />
+    <h:link rel="stylesheet" value="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css"/>
 </h:head>
 
 <h:body>
-    <h:form>
-        <div>
-            <h:inputText id="upto" value="#{random.upto}">
-            </h:inputText>
-            <h:selectOneMenu value="#{random.type}">
-                <f:selectItems value="#{random.types}"
-                               var="t"
-                               itemValue="#{t}"
-                               itemLabel="#{t.label}"
-                               itemDescription="#{t.description}"
-                               itemDisabled="#{t.disabled}"
-                               itemLabelEscaped="#{t.escape}"/>
-            </h:selectOneMenu>
-            <h:messages style="color : red; " fatalStyle="color: purple" errorStyle="color: red"/>
-        </div>
-        <div>
-            <table><tbody><tr>
-                <td><h3>Generate the next random number:</h3></td>
-                <td><h:outputText value="#{random.value}"/></td>
-            </tr></tbody></table>
-            <h:commandButton action="#{random.generateNextNumber()}" value="Generate"/>
-        </div>
-    </h:form>
+    <ui:composition template="templates/common/common.xhtml">
+        <ui:define name="contents">
+            <h:form>
+                <div>
+                    <h:inputText id="upto" value="#{random.upto}" styleClass="form-control">
+                    </h:inputText>
+                    <h:selectOneMenu value="#{random.type}">
+                        <f:selectItems value="#{random.types}"
+                                       var="t"
+                                       itemValue="#{t}"
+                                       itemLabel="#{t.label}"
+                                       itemDescription="#{t.description}"
+                                       itemDisabled="#{t.disabled}"
+                                       itemLabelEscaped="#{t.escape}"/>
+                    </h:selectOneMenu>
+                    <h:messages style="color : red; " fatalStyle="color: purple" errorStyle="color: red"/>
+                </div>
+                <div>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td><h3>Generate the next random number:</h3></td>
+                            <td><h:outputText value="#{random.value}"/></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <h:commandButton action="#{random.generateNextNumber()}" value="Generate"/>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
 </h:body>
 
 </html>

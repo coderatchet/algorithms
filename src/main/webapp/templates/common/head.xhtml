@@ -5,17 +5,17 @@
   Date: 4/08/13
   Time: 1:22 PM
 -->
-<!DOCTYPE html
-        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
     <ui:composition>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="#{constants.BOOTSTRAP_CDN_CSS}"></link>
         <script src="#{constants.BOOTSTRAP_CDN_JAVASCRIPT}" language="JavaScript" type="text/javascript"></script>
+        <h:outputScript library="js" name="jquery-#{constants.JQUERY_VERSION}.js" />
     </ui:composition>
 </h:head>
 

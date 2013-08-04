@@ -26,4 +26,8 @@ public class Constants {
     public String getBOOTSTRAP_CDN_JAVASCRIPT(){
         return uiManager.getValue(Configuration.BOOTSTRAP_API_CDN_JAVASCRIPT);
     }
+
+    public String getJQUERY_VERSION(){
+        return uiManager.getValue(Configuration.JQUERY_VERSION);
+    }
 }

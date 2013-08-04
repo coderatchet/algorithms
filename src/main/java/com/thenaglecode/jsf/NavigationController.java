@@ -17,4 +17,8 @@ public class NavigationController {
     public String moveToRandomGeneratorPage(){
         return "random";
     }
+
+    public String moveToHome(){
+        return "home";
+    }
 }

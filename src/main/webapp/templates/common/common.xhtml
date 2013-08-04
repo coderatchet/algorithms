@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: jxnagl
+  Date: 8/2/13
+  Time: 5:50 PM
+-->
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <style type="text/css">
+        .main {
+            margin: 0 auto;
+            float: none;
+        }
+
+        .header {
+            border: aqua thick;
+        }
+
+        .contents {
+            border: aliceblue dotted;
+        }
+
+        .footer {
+            border: aquamarine outset;
+        }
+    </style>
+    <ui:insert name="head">
+        <ui:include src="/templates/common/head.xhtml"/>
+    </ui:insert>
+</h:head>
+
+<h:body>
+    <div class="container">
+        <div id="main" class="span7 main">
+            <div class="header">
+                <ui:insert name="header">
+                    <ui:include src="/templates/common/header.xhtml"/>
+                </ui:insert>
+            </div>
+            <div class="contents">
+                <ui:insert name="contents">
+                    <ui:include src="/templates/common/content.xhtml"/>
+                </ui:insert>
+            </div>
+            <div class="footer">
+                <ui:insert name="footer">
+                    <ui:include src="/templates/common/footer.xhtml"/>
+                </ui:insert>
+            </div>
+        </div>
+    </div>
+</h:body>
+
+</html>

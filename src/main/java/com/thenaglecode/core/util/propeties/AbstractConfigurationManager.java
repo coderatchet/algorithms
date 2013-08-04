@@ -3,6 +3,7 @@ package com.thenaglecode.core.util.propeties;
 import com.thenaglecode.core.util.ConfigurationItem;
 
 import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,12 +18,9 @@ import java.util.PropertyResourceBundle;
  */
 public abstract class AbstractConfigurationManager {
 
-    private AbstractConfigurationManager instance;
-    PropertyResourceBundle bundle;
+    ResourceBundle bundle;
     private String propertyFile;
     private static final String DEFAULT_CONFIG_BUDNLE_NAME = "configuration";
-
-    public abstract <T extends AbstractConfigurationManager> T getInstance();
 
     /**
      * do not ctor
@@ -63,6 +61,7 @@ public abstract class AbstractConfigurationManager {
     protected void init(String propertyFile) {
         setPropertyFile(propertyFile);
         String baseName = getClass().getPackage().getName() + "." + propertyFile;
-        bundle = (PropertyResourceBundle) PropertyResourceBundle.getBundle(baseName);
+
+        bundle = PropertyResourceBundle.getBundle(baseName);
     }
 }

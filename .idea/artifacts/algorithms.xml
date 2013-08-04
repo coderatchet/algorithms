@@ -2,18 +2,7 @@
   <artifact type="war" name="algorithms">
     <output-path>$PROJECT_DIR$/out/artifacts/algorithms</output-path>
     <root id="archive" name="algorithms.war">
-      <element id="directory" name="WEB-INF">
-        <element id="directory" name="classes">
-          <element id="module-output" name="Algorithms" />
-        </element>
-        <element id="directory" name="lib">
-          <element id="library" level="application" name="commons-collections4-4.0-alpha1" />
-          <element id="library" level="application" name="joda-time-2.2" />
-          <element id="library" level="application" name="commons-lang3-3.1" />
-          <element id="library" level="application" name="jsf-2.0.1-FCS" />
-        </element>
-      </element>
-      <element id="javaee-facet-resources" facet="Algorithms/web/webapp" />
+      <element id="artifact" artifact-name="algorithms:war exploded" />
     </root>
   </artifact>
 </component>
