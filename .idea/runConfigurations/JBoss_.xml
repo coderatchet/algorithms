@@ -1,7 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Jboss" type="JBossConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="JBoss 7.2.0.Final-redhat-8">
+  <configuration default="false" name="JBoss " type="JBossConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="JBoss 7.2.0">
     <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/algorithms/index.jsf" />
-    <option name="SHOW_DIALOG_ON_UPDATE" value="false" />
     <option name="UPDATING_POLICY" value="redeploy-artifacts" />
     <deployment>
       <artifact name="algorithms">
@@ -18,7 +17,7 @@
     <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
     <RunnerSettings RunnerId="Cover" />
     <RunnerSettings RunnerId="Debug">
-      <option name="DEBUG_PORT" value="50127" />
+      <option name="DEBUG_PORT" value="61127" />
       <option name="TRANSPORT" value="0" />
       <option name="LOCAL" value="true" />
     </RunnerSettings>

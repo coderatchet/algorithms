@@ -1,9 +1,11 @@
 package com.thenaglecode.core.util.propeties;
 
 import com.thenaglecode.core.util.ConfigurationItem;
+import com.thenaglecode.core.util.ConfigurationUtil;
+import com.thenaglecode.core.util.Named;
+import com.thenaglecode.core.util.Refreshable;
 
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,10 +18,13 @@ import java.util.ResourceBundle;
  * <tt>AbstractConfigurationManager</tt> implementation. if a filename is not specified, the default of
  * <tt>"configuration"</tt> is used.
  */
-public abstract class AbstractConfigurationManager {
+public abstract class AbstractConfigurationManager implements Refreshable, Named {
 
-    ResourceBundle bundle;
+    @NotNull
     private String propertyFile;
+    @NotNull
+    RefreshablePropertyResourceBundle bundle;
+    @NotNull
     private static final String DEFAULT_CONFIG_BUDNLE_NAME = "configuration";
 
     /**
@@ -31,19 +36,20 @@ public abstract class AbstractConfigurationManager {
 
     protected AbstractConfigurationManager(String propertyFile){
         init(propertyFile);
+        ConfigurationUtil.registerConfigurationManager(this);
     }
 
-    private final String getPropertyFile() {
+    private String getPropertyFile() {
         return propertyFile;
     }
 
-    private final void setPropertyFile(String propertyFile) {
+    private void setPropertyFile(String propertyFile) {
         this.propertyFile = propertyFile;
     }
 
     public String getValue(String key){
         if(bundle != null){
-            return bundle.getString(key);
+            return bundle.getBundle().getString(key);
         } else {
             return null;
         }
@@ -54,14 +60,37 @@ public abstract class AbstractConfigurationManager {
         return (value == null) ? configurationItem.getDefaultValue() : value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    synchronized public void refresh() {
+        bundle.refresh();
+    }
+
     protected void init(){
         init(getPropertyFile());
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getName() {
+        return getFullyQualifiedPropertyFileReference();
+    }
+
+    /**
+     * returns the fully qualified name of the properties file without the .properties
+     * @return the fully qualified name of the properties file without the .properties
+     */
+    private String getFullyQualifiedPropertyFileReference(){
+        return getClass().getPackage().getName() + "." + propertyFile;
+    }
+
     protected void init(String propertyFile) {
         setPropertyFile(propertyFile);
-        String baseName = getClass().getPackage().getName() + "." + propertyFile;
-
-        bundle = PropertyResourceBundle.getBundle(baseName);
+        String baseName = getFullyQualifiedPropertyFileReference();
+        bundle = new RefreshablePropertyResourceBundle(baseName);
     }
 }

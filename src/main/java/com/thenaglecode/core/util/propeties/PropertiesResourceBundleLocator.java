@@ -3,8 +3,6 @@ package com.thenaglecode.core.util.propeties;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 import java.io.IOException;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,9 +18,9 @@ public class PropertiesResourceBundleLocator {
 
     @Produces
     @PropertyBundleResource(name = "")
-    ResourceBundle loadPropertiesResource(InjectionPoint ip) throws IOException {
+    RefreshablePropertyResourceBundle loadPropertiesResource(InjectionPoint ip) throws IOException {
         logger.log(Level.FINE, "-- called PropertiesResourceBundle loader");
         PropertiesResource annotation = ip.getAnnotated().getAnnotation(PropertiesResource.class);
-        return PropertyResourceBundle.getBundle(annotation.name());
+        return new RefreshablePropertyResourceBundle(annotation.name());
     }
 }
