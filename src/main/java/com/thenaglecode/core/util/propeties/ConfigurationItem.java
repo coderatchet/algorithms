@@ -1,4 +1,4 @@
-package com.thenaglecode.core.util;
+package com.thenaglecode.core.util.propeties;
 
 /**
  * Created with IntelliJ IDEA.

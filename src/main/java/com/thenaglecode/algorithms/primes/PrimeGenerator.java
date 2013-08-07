@@ -1,7 +1,5 @@
 package com.thenaglecode.algorithms.primes;
 
-import com.thenaglecode.algorithms.Configuration;
-import com.thenaglecode.algorithms.ConfigurationManager;
 import com.thenaglecode.core.util.Named;
 
 /**

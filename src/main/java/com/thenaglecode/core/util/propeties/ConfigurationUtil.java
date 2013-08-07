@@ -1,6 +1,8 @@
-package com.thenaglecode.core.util;
+package com.thenaglecode.core.util.propeties;
 
-import com.thenaglecode.core.util.propeties.AbstractConfigurationManager;
+import com.thenaglecode.core.util.propeties.ConfigurationManager;
+import com.thenaglecode.core.util.propeties.PropertyBundleResource;
+import com.thenaglecode.core.util.propeties.RefreshablePropertyResourceBundle;
 import org.apache.commons.collections.MapIterator;
 import org.apache.commons.collections.map.HashedMap;
 
@@ -28,7 +30,7 @@ public class ConfigurationUtil {
     }
 
     public static boolean refreshConfigurationManager(@NotNull String subsystem, @NotNull String fileName){
-        AbstractConfigurationManager manager = (AbstractConfigurationManager) configurationManagers.get(subsystem + "." + fileName);
+        ConfigurationManager manager = (ConfigurationManager) configurationManagers.get(subsystem + "." + fileName);
         if(manager == null) return false;
         manager.refresh();
         return true;
@@ -37,11 +39,11 @@ public class ConfigurationUtil {
     public static void refreshAllConfigurationManagers(){
         MapIterator it = configurationManagers.mapIterator();
         while (it.hasNext()){
-            ((AbstractConfigurationManager)it.getValue()).refresh();
+            ((ConfigurationManager)it.getValue()).refresh();
         }
     }
 
-    public static void registerConfigurationManager(AbstractConfigurationManager configurationManager){
+    public static void registerConfigurationManager(ConfigurationManager configurationManager){
         configurationManagers.put(configurationManager.getName(), configurationManager);
     }
 }

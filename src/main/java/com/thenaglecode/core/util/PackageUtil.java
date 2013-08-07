@@ -1,7 +1,5 @@
 package com.thenaglecode.core.util;
 
-import com.thenaglecode.algorithms.Configuration;
-import com.thenaglecode.algorithms.ConfigurationManager;
 import com.thenaglecode.core.util.propeties.PropertyBundleResource;
 
 import java.util.ResourceBundle;

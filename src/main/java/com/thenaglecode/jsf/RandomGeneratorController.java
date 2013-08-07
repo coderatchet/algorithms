@@ -1,6 +1,6 @@
 package com.thenaglecode.jsf;
 
-import com.thenaglecode.algorithms.ejb.AlgorithmControllerBean;
+import com.thenaglecode.algorithms.ejb.session.singletons.AlgorithmControllerBean;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;

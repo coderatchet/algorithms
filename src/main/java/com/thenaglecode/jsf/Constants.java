@@ -1,8 +1,5 @@
 package com.thenaglecode.jsf;
 
-import com.thenaglecode.core.ui.Configuration;
-import com.thenaglecode.core.ui.CoreUIConfigurationManager;
-
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
@@ -16,8 +13,6 @@ import javax.faces.bean.ManagedBean;
 @ManagedBean(name = "constants", eager = true)
 @ApplicationScoped
 public class Constants {
-
-    public static final CoreUIConfigurationManager uiManager = CoreUIConfigurationManager.getInstance();
 
     public String getBOOTSTRAP_CDN_CSS(){
         return uiManager.getValue(Configuration.BOOTSTRAP_API_CDN_CSS);

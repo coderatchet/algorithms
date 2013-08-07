@@ -1,4 +1,4 @@
-package com.thenaglecode.algorithms.ejb;
+package com.thenaglecode.algorithms.ejb.session.singletons;
 
 import com.thenaglecode.algorithms.random.LinearCongruentialGenerator;
 import com.thenaglecode.algorithms.random.RandomNumberGenerator;
