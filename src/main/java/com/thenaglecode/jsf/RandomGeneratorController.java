@@ -1,11 +1,11 @@
 package com.thenaglecode.jsf;
 
 import com.thenaglecode.algorithms.ejb.AlgorithmControllerBean;
-import javax.faces.model.SelectItem;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.model.SelectItem;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,25 +18,25 @@ import java.util.List;
  */
 
 @ManagedBean(name = "random")
-@SessionScoped
+@ViewScoped
 public class RandomGeneratorController implements Serializable {
-
-    private List<SelectItem> types;
 
     @EJB
     AlgorithmControllerBean algorithmController;
-
-    long seed = 0;
-    long upto = 1000;
+    long seed;
+    long upto;
     String type = "long";
     String value = "0";
+    private List<SelectItem> types;
 
-    public RandomGeneratorController(){
+    public RandomGeneratorController() {
         init();
     }
 
     private void init() {
         types = new ArrayList<>();
+        upto = 1000;
+        seed = 0;
         types.add(new SelectItem("short"));
         types.add(new SelectItem("int"));
         types.add(new SelectItem("long"));
@@ -44,7 +44,7 @@ public class RandomGeneratorController implements Serializable {
         types.add(new SelectItem("double"));
     }
 
-    public List<SelectItem> getTypes(){
+    public List<SelectItem> getTypes() {
         return types;
     }
 
@@ -65,19 +65,23 @@ public class RandomGeneratorController implements Serializable {
     }
 
     public void setUpto(long upto) {
-        this.upto = upto;
+        if (this.upto != upto) {
+            this.upto = upto;
+        }
     }
 
     public long getSeed() {
         return seed;
     }
 
-    public void setSeed() {
-        algorithmController.setSeed(seed);
+    public void setSeed(long seed) {
+        if (this.seed != seed) {
+            algorithmController.setSeed(seed);
+            this.seed = seed;
+        }
     }
 
-    public String generateNextNumber() {
+    public void generateNextNumber() {
         value = algorithmController.getRandomNumber(type, upto);
-        return value;
     }
 }

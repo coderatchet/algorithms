@@ -6,44 +6,65 @@
   Time: 2:55 PM
 -->
 <!DOCTYPE html>
-
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-
 <h:head>
-    <title>Simple JSF Facelets page</title>
-    <h:link rel="stylesheet" value="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css"/>
 </h:head>
 
 <h:body>
     <ui:composition template="templates/common/common.xhtml">
         <ui:define name="contents">
             <h:form>
-                <div>
-                    <h:inputText id="upto" value="#{random.upto}" styleClass="form-control">
-                    </h:inputText>
-                    <h:selectOneMenu value="#{random.type}">
-                        <f:selectItems value="#{random.types}"
-                                       var="t"
-                                       itemValue="#{t}"
-                                       itemLabel="#{t.label}"
-                                       itemDescription="#{t.description}"
-                                       itemDisabled="#{t.disabled}"
-                                       itemLabelEscaped="#{t.escape}"/>
-                    </h:selectOneMenu>
-                    <h:messages style="color : red; " fatalStyle="color: purple" errorStyle="color: red"/>
+                <div class="row">
+                    <div class="col-lg-2 col-lg-offset-2" style="text-align: right">
+                        <h:outputText value="Number up to:"/>
+                    </div>
+                    <div class="col-lg-2">
+                        <h:inputText id="upto" value="#{random.upto}" styleClass="form-control">
+                        </h:inputText>
+                    </div>
                 </div>
-                <div>
-                    <table>
-                        <tbody>
-                        <tr>
-                            <td><h3>Generate the next random number:</h3></td>
-                            <td><h:outputText value="#{random.value}"/></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <h:commandButton action="#{random.generateNextNumber()}" value="Generate"/>
+                <div class="row">
+                    <div class="col-lg-2 col-lg-offset-2" style="text-align: right; vertical-align: middle">
+                        <h:outputText value="Starting seed:" style="text-align: right"/>
+                    </div>
+                    <div class="col-lg-2">
+                        <h:inputText id="seed" value="#{random.seed}" styleClass="form-control">
+                        </h:inputText>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2 col-lg-offset-2" style="text-align: right">
+                        <h:outputText value="Number Type:"/>
+                    </div>
+                    <div class="col-lg-2">
+                        <h:selectOneMenu value="#{random.type}" styleClass="fill-with-sml-margin" style = "width: 100%; padding: 2px; vertical-align: middle">
+                            <f:selectItems value="#{random.types}"
+                                           var="t"
+                                           itemValue="#{t}"
+                                           itemLabel="#{t.label}"
+                                           itemDescription="#{t.description}"
+                                           itemDisabled="#{t.disabled}"
+                                           itemLabelEscaped="#{t.escape}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-lg-offset-4">
+                        <h:commandButton action="#{random.generateNextNumber()}" value="Generate"
+                                         styleClass="btn-primary btn-large" style="width: 100%; padding: 2px; vertical-align: middle"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-lg-offset-4">
+                        <pre>#{random.value}</pre>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-lg-offset-4">
+                        <h:messages style="color : red; " fatalStyle="color: purple" errorStyle="color: red"/>
+                    </div>
                 </div>
             </h:form>
         </ui:define>

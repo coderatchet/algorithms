@@ -8,6 +8,7 @@ package com.thenaglecode.algorithms.random;
  * To change this template use File | Settings | File Templates.
  */
 public interface RandomNumberGenerator {
+    public void setSeed(long seed);
     public short nextShort();
     public short nextShort(short upto);
     public int nextInt();

@@ -22,6 +22,10 @@ public class LinearCongruentialGenerator implements RandomNumberGenerator {
         state = seed;
     }
 
+    public void setSeed(long seed){
+        state = seed;
+    }
+
     private long nextState(){
        return state = (A * state + C) & MASK;
     }
@@ -33,7 +37,7 @@ public class LinearCongruentialGenerator implements RandomNumberGenerator {
 
     @Override
     public short nextShort(short upToExcluding) {
-        return (short) Math.abs(nextState() % upToExcluding);
+        return (short) (nextState() % upToExcluding);
     }
 
     @Override
@@ -43,7 +47,7 @@ public class LinearCongruentialGenerator implements RandomNumberGenerator {
 
     @Override
     public synchronized int nextInt(int upToExcluding) {
-        return (int) Math.abs(nextState() % upToExcluding);
+        return (int) (nextState() % upToExcluding);
     }
 
     @Override
@@ -53,16 +57,16 @@ public class LinearCongruentialGenerator implements RandomNumberGenerator {
 
     @Override
     public synchronized long nextLong(long upToExcluding) {
-        return Math.abs(nextState() % upToExcluding);
+        return nextState() % upToExcluding;
     }
 
     @Override
     public float nextFloat() {
-        return (float) Math.abs(nextState() / M);
+        return (float) nextState() / M;
     }
 
     @Override
     public double nextDouble() {
-        return (double) Math.abs(nextState() / M);
+        return (double) nextState() / M;
     }
 }

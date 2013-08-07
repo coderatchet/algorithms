@@ -20,5 +20,6 @@ public class StartUp extends HttpServlet{
     @Override
     public void init() throws ServletException {
         super.init();
+        //todo read the core configuration file and create configuration managers for every property file with that format
     }
 }
