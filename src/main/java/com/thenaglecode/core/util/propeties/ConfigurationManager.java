@@ -1,5 +1,6 @@
 package com.thenaglecode.core.util.propeties;
 
+import com.thenaglecode.core.Configuration;
 import com.thenaglecode.core.util.Named;
 import com.thenaglecode.core.util.Refreshable;
 
@@ -16,7 +17,10 @@ import javax.validation.constraints.NotNull;
  * <tt>ConfigurationManager</tt> implementation. if a filename is not specified, the default of
  * <tt>"configuration"</tt> is used.
  */
-public class ConfigurationManager implements Refreshable, Named {
+public class ConfigurationManager implements Refreshable, Named, Configuration {
+
+    @InjectConfiguration(subsystem = "core")
+    private static ConfigurationManager coreConfiguration;
 
     @NotNull
     private String subsystem;
@@ -25,20 +29,13 @@ public class ConfigurationManager implements Refreshable, Named {
     @NotNull
     RefreshablePropertyResourceBundle bundle;
     @NotNull
-    private static final String DEFAULT_CONFIG_BUDNLE_NAME = "configuration";
+    private static final String DEFAULT_CONFIG_BUNDLE_NAME = coreConfiguration.getValue(DEFAULT_CONFIGURATION_FILENAME);
 
-    /**
-     * do not ctor
-     */
-    protected ConfigurationManager(){
-        this(DEFAULT_CONFIG_BUDNLE_NAME);
+    public ConfigurationManager(String subSystem){
+        this(subSystem, DEFAULT_CONFIG_BUNDLE_NAME);
     }
 
-    protected ConfigurationManager(String subSystem){
-        this(subSystem, DEFAULT_CONFIG_BUDNLE_NAME);
-    }
-
-    protected ConfigurationManager(String subSystem, String fileName){
+    public ConfigurationManager(String subSystem, String fileName){
         init(subSystem, fileName);
     }
 
@@ -46,9 +43,29 @@ public class ConfigurationManager implements Refreshable, Named {
         this.propertyFile = propertyFile;
     }
 
+    public String getPropertyFile() {
+        return propertyFile;
+    }
+
+    public String getSubsystem() {
+        return subsystem;
+    }
+
+    private void setSubsystem(String subsystem) {
+        this.subsystem = subsystem;
+    }
+
     public String getValue(String key){
         if(bundle != null){
             return bundle.getBundle().getString(key);
+        } else {
+            return null;
+        }
+    }
+
+    public String[] getValueArray(String key){
+        if(bundle != null){
+            return bundle.getBundle().getStringArray(key);
         } else {
             return null;
         }
@@ -68,9 +85,9 @@ public class ConfigurationManager implements Refreshable, Named {
     }
 
     protected void init(@NotNull String subSystem, @NotNull String fileName){
+        setSubsystem(subSystem);
         setPropertyFile(fileName);
-        String baseName = subSystem + "." + fileName;
-        bundle = new RefreshablePropertyResourceBundle(baseName);
+        bundle = new RefreshablePropertyResourceBundle(getFullyQualifiedPropertyFileReference());
     }
 
     /**
@@ -86,6 +103,7 @@ public class ConfigurationManager implements Refreshable, Named {
      * @return the fully qualified name of the properties file without the .properties
      */
     private String getFullyQualifiedPropertyFileReference(){
-        return getClass().getPackage().getName() + "." + propertyFile;
+        return coreConfiguration.getValue(DEFAULT_BASE_PACKAGE)
+                + "." + getSubsystem() + "." + getPropertyFile();
     }
 }

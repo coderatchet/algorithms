@@ -4,10 +4,7 @@ import com.thenaglecode.algorithms.random.LinearCongruentialGenerator;
 import com.thenaglecode.algorithms.random.RandomNumberGenerator;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
-import javax.ejb.Stateful;
-import javax.ejb.Stateless;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,8 +12,7 @@ import javax.ejb.Stateless;
  * Date: 8/1/13
  * Time: 3:54 PM
  */
-@Singleton(name = "AlgorithmControllerEJB")
-@LocalBean
+@Singleton
 public class AlgorithmControllerBean {
 
     private static final RandomNumberGenerator generator = new LinearCongruentialGenerator();
