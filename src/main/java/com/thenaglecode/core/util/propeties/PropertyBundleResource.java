@@ -19,6 +19,12 @@ import java.lang.annotation.Target;
 @Target({ ElementType.TYPE, ElementType.FIELD, ElementType.METHOD,
         ElementType.PARAMETER })
 public @interface PropertyBundleResource {
+
+    public static final String DEFAULT_FILE = "configuration";
+
     @Nonbinding
-    public String name();
+    public String subsystem();
+
+    @Nonbinding
+    public String file() default DEFAULT_FILE;
 }

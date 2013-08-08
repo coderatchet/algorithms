@@ -1,6 +1,9 @@
 package com.thenaglecode.algorithms.primes;
 
+import com.thenaglecode.algorithms.Configuration;
 import com.thenaglecode.core.util.Named;
+import com.thenaglecode.core.util.propeties.ConfigurationManager;
+import com.thenaglecode.core.util.propeties.InjectConfiguration;
 
 /**
  * Created with IntelliJ IDEA.
@@ -8,7 +11,11 @@ import com.thenaglecode.core.util.Named;
  * Date: 7/25/13
  * Time: 3:59 PM
  */
-public abstract class PrimeGenerator implements Named {
+public abstract class PrimeGenerator implements Named, Configuration {
+
+    @InjectConfiguration(subsystem = "core")
+    private static ConfigurationManager configurationManager;
+
     private static PrimeGenerator instance;
 
     /**
@@ -18,7 +25,7 @@ public abstract class PrimeGenerator implements Named {
     public static PrimeGenerator getGenerator() {
         if (instance == null) {
             try {
-                instance = (PrimeGenerator) Class.forName(ConfigurationManager.getInstance().getValue(Configuration.PRIME_GENERATOR_CLASS)).newInstance();
+                instance = (PrimeGenerator) Class.forName(configurationManager.getValue(PRIMES_GENERATOR_CLASS)).newInstance();
             } catch (Exception e){
                 instance = new PGSimple1();
             }
