@@ -1,11 +1,12 @@
 package com.thenaglecode.jsf;
 
 import com.thenaglecode.core.ui.Configuration;
-import com.thenaglecode.core.util.propeties.ConfigurationManager;
-import com.thenaglecode.core.util.propeties.InjectConfiguration;
+import com.thenaglecode.core.util.propeties.PropertyBundleResource;
+import com.thenaglecode.core.util.propeties.RefreshablePropertyResourceBundle;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.inject.Inject;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,18 +19,18 @@ import javax.faces.bean.ManagedBean;
 @ApplicationScoped
 public class Constants implements Configuration{
 
-    @InjectConfiguration(subsystem = "core.ui", file = "coreUI")
-    private static ConfigurationManager uiConfigurationManager;
+    @Inject @PropertyBundleResource(subsystem = "core.ui", file = "coreUI")
+    RefreshablePropertyResourceBundle uiBundle;
 
     public String getBOOTSTRAP_CDN_CSS(){
-        return uiConfigurationManager.getValue(BOOTSTRAP_API_CDN_CSS);
+        return uiBundle.getString(BOOTSTRAP_API_CDN_CSS);
     }
 
     public String getBOOTSTRAP_CDN_JAVASCRIPT(){
-        return uiConfigurationManager.getValue(BOOTSTRAP_API_CDN_JAVASCRIPT);
+        return uiBundle.getString(BOOTSTRAP_API_CDN_JAVASCRIPT);
     }
 
     public String getJQUERY_VERSION(){
-        return uiConfigurationManager.getValue(JQUERY_VERSION);
+        return uiBundle.getString(JQUERY_VERSION);
     }
 }

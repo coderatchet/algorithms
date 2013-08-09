@@ -6,6 +6,7 @@
 
     <groupId>com.thenaglecode</groupId>
     <artifactId>algorithms</artifactId>
+    <packaging>pom</packaging>
     <version>1.0.0.Pre-Alpha</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

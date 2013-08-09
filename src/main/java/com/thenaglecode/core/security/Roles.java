@@ -8,4 +8,6 @@ package com.thenaglecode.core.security;
  */
 public interface Roles {
     public static final String SYSTEM = "system";
+    public static final String ADMIN = "admin";
+    public static final String USER = "user";
 }
