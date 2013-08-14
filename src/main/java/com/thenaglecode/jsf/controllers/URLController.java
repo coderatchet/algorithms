@@ -1,4 +1,4 @@
-package com.thenaglecode.jsf;
+package com.thenaglecode.jsf.controllers;
 
 /**
  * Created with IntelliJ IDEA.

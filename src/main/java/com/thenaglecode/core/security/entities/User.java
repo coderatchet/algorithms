@@ -1,9 +1,7 @@
 package com.thenaglecode.core.security.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.security.Principal;
 
 /**
@@ -14,14 +12,22 @@ import java.security.Principal;
  */
 
 @Entity
+@Table(name = "COUSER")
 public class User implements Principal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Column(name = "USERID")
     long id;
 
+    @NotNull
     String username;
     String password;
+
+    @ManyToMany
+    @JoinTable(
+            name = ""
+    )
 
     /**
      * Getter for id
@@ -58,5 +64,9 @@ public class User implements Principal {
     @Override
     public String getName() {
         return getUsername();
+    }
+
+    public User(String username){
+        this.username = username;
     }
 }
