@@ -9,7 +9,6 @@ import java.util.List;
  * User: jxnagl
  * Date: 7/29/13
  * Time: 4:38 PM
- * To change this template use File | Settings | File Templates.
  */
 public class PrimeList implements Serializable, Iterable<Long> {
 
