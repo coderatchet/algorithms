@@ -5,13 +5,13 @@ drop table cogroup;
 drop table cogroupuserlink;
 
 CREATE TABLE COUSER (
-    USERID BIGINT UNSIGNED NOT NULL UNIQUE PRIMARY KEY,
+    USERID SERIAL,
     USERNAME VARCHAR(128) NOT NULL UNIQUE,
     PASSWORD CHAR(128)
 );
 
 CREATE TABLE COGROUP (
-    GROUPID BIGINT UNSIGNED NOT NULL UNIQUE PRIMARY KEY,
+    GROUPID SERIAL,
     NAME VARCHAR(64)
 );
 
@@ -21,12 +21,5 @@ CREATE TABLE COGROUPUSERLINK (
 		REFERENCES COUSER (USERID),
 	GROUPID BIGINT UNSIGNED NOT NULL
 		REFERENCES COGROUP (GROUPID),
-  PRIMARY KEY (USERID, GROUPID) -- to ensure no duplicates
-);
-
--- this table will be used to generate next numbers
-CREATE TABLE openjpa_sequence_table (
-	ID tinyint(4) NOT NULL,
-	SEQUENCE_VALUE bigint(20) default NULL,
-	PRIMARY KEY  (ID)
+  UNIQUE (USERID, GROUPID) -- to ensure no duplicates
 );

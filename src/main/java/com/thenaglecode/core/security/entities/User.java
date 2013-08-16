@@ -1,8 +1,11 @@
 package com.thenaglecode.core.security.entities;
 
+import com.sun.istack.internal.Nullable;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,18 +19,18 @@ import java.security.Principal;
 public class User implements Principal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USERID")
+    @NotNull
     long id;
 
     @NotNull
-    String username;
-    String password;
+    private String username;
+    @Nullable
+    private String password;
 
-    @ManyToMany
-    @JoinTable(
-            name = ""
-    )
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "users")
+    private Set<Group> groups;
 
     /**
      * Getter for id
@@ -43,6 +46,14 @@ public class User implements Principal {
      */
     private void setId(long id) {
         this.id = id;
+    }
+
+    public Set<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
     }
 
     /**
@@ -66,7 +77,10 @@ public class User implements Principal {
         return getUsername();
     }
 
+    public User(){}
+
     public User(String username){
+        this();
         this.username = username;
     }
 }
