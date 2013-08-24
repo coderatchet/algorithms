@@ -17,6 +17,9 @@ import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static junit.framework.Assert.assertNotNull;
 
 /**
@@ -40,6 +43,8 @@ public class SecurityTests {
             "user"
     };
 
+    private static final Set<User> USERS = new HashSet<>();
+
     @EJB
     TransactionUtil txUtil;
 
@@ -59,11 +64,11 @@ public class SecurityTests {
 
     @Before
     public void init() {
-        deleteData();
-        insertData();
+        deleteAllUsers();
+        insertTestUsersData();
     }
 
-    private void deleteData() {
+    private void deleteAllUsers() {
         txUtil.wrapInTx(new TransactionUtil.Invokable() {
             @Override
             public void invoke() {
@@ -72,7 +77,7 @@ public class SecurityTests {
         });
     }
 
-    private void insertData() {
+    private void insertTestUsersData() {
         txUtil.wrapInTx(new TransactionUtil.Invokable() {
             @Override
             public void invoke() {
@@ -81,7 +86,10 @@ public class SecurityTests {
                 for (String username : USER_NAMES) {
                     users[i++] = new User(username);
                 }
-                for (User user : users) em.persist(user);
+                for (User user : users) {
+                    em.persist(user);
+                    USERS.add(user);
+                }
             }
         });
     }

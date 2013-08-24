@@ -10,6 +10,9 @@
     </list>
   </component>
   <component name="IdProvider" IDEtalkID="6FE0E5F77BEB408AFF77E9DBAA4CB004" />
+  <component name="JsfProjectComponent">
+    <option name="faceletsSupport" value="ENABLED" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
