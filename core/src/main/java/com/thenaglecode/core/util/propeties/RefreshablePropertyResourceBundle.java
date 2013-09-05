@@ -5,6 +5,7 @@ import com.thenaglecode.core.util.Named;
 import com.thenaglecode.core.util.Refreshable;
 
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -31,24 +32,30 @@ public class RefreshablePropertyResourceBundle implements Refreshable, Named, Co
      */
     public RefreshablePropertyResourceBundle(@NotNull String propertyFileFQN) throws MissingResourceException {
         setPropertyFileFQN(propertyFileFQN);
-        setBundle(PropertyResourceBundle.getBundle(propertyFileFQN));
+        setDelegate(ResourceBundle.getBundle(propertyFileFQN, Locale.getDefault(), ResourceBundle.Control.getControl(ResourceBundle.Control.FORMAT_PROPERTIES)));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void refresh() {
-        setBundle(PropertyResourceBundle.getBundle(getPropertyFileFQN()));
+    public boolean refresh() {
+        try {
+            setDelegate(ResourceBundle.Control.getControl(ResourceBundle.Control.FORMAT_PROPERTIES).newBundle(getPropertyFileFQN(), getLocale(), ResourceBundle.Control.FORMAT_PROPERTIES.get(0), ClassLoader.getSystemClassLoader(), true));
+        } catch (IllegalAccessException | InstantiationException | IOException e) {
+            return false;
+        }
+        return true;
     }
 
     /**
      * gets the property from the resource bundle, else returns the default value
+     *
      * @param configurationItem
      * @return
      */
     @NotNull
-    public String getString(@NotNull ConfigurationItem configurationItem){
+    public String getString(@NotNull ConfigurationItem configurationItem) {
         String value = getString(configurationItem.getKey());
         return (value == null) ? configurationItem.getDefaultValue() : value;
     }
@@ -70,12 +77,17 @@ public class RefreshablePropertyResourceBundle implements Refreshable, Named, Co
         this.propertyFileFQN = propertyFileFQN;
     }
 
+    /**
+     * the wrapped ResourceBundle used in the
+     *
+     * @return
+     */
     @NotNull
-    private ResourceBundle getBundle() {
+    public ResourceBundle getDelegate() {
         return bundle;
     }
 
-    private void setBundle(@NotNull ResourceBundle bundle) {
+    private void setDelegate(@NotNull ResourceBundle bundle) {
         this.bundle = bundle;
     }
 
@@ -84,30 +96,30 @@ public class RefreshablePropertyResourceBundle implements Refreshable, Named, Co
     //-------------------------------------------------------------
 
     public String getString(String key) {
-        return getBundle().getString(key);
+        return getDelegate().getString(key);
     }
 
     public String[] getStringArray(String key) {
-        return getBundle().getStringArray(key);
+        return getDelegate().getStringArray(key);
     }
 
     public boolean containsKey(String key) {
-        return getBundle().containsKey(key);
+        return getDelegate().containsKey(key);
     }
 
     public Enumeration<String> getKeys() {
-        return getBundle().getKeys();
+        return getDelegate().getKeys();
     }
 
     public Object getObject(String key) {
-        return getBundle().getObject(key);
+        return getDelegate().getObject(key);
     }
 
     public Locale getLocale() {
-        return getBundle().getLocale();
+        return getDelegate().getLocale();
     }
 
     public Set<String> keySet() {
-        return getBundle().keySet();
+        return getDelegate().keySet();
     }
 }

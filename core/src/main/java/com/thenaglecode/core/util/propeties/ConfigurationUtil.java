@@ -30,23 +30,18 @@ public class ConfigurationUtil implements Configuration {
 
     /**
      * Refreshes the configuration of the specified subsystem. this is equivelant to calling
-     * refreshConfigurationManager(subsystem, {@link #DEFAULT_FILE});
+     * refreshPropertyResourceBundle(subsystem, {@link #DEFAULT_FILE});
      * @param subsystem the subsystem the configuration file is located under. e.g. "core"
-     * @return
+     * @return if the bundle successfully refreshed
      */
-    public static boolean refreshConfigurationManager(@NotNull String subsystem) {
-        return refreshConfigurationManager(subsystem, DEFAULT_FILE);
+    public static boolean refreshPropertyResourceBundle(@NotNull String subsystem) {
+        return refreshPropertyResourceBundle(subsystem, DEFAULT_FILE);
     }
 
 
-    public static boolean refreshConfigurationManager(@NotNull String subsystem, @NotNull String fileName) {
+    public static boolean refreshPropertyResourceBundle(@NotNull String subsystem, @NotNull String fileName) {
         RefreshablePropertyResourceBundle bundle = getRefreshablePropertyResourceBundle(subsystem, fileName);
-        if (bundle == null) {
-            return false;
-        } else {
-            bundle.refresh();
-        }
-        return true;
+        return bundle != null && bundle.refresh();
     }
 
     public static void refreshAllConfigurationManagers() {

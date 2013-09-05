@@ -11,7 +11,7 @@ package com.thenaglecode.core.util;
 public interface Refreshable {
 
     /**
-     * Refresh this object's state.
+     * @return Whether the method refreshed successfully or not.
      */
-    public void refresh();
+    public boolean refresh();
 }
