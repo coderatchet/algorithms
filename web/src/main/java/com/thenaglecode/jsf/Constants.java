@@ -1,7 +1,7 @@
 package com.thenaglecode.jsf;
 
 import com.thenaglecode.core.ui.Configuration;
-import com.thenaglecode.core.util.propeties.PropertyBundleResource;
+import com.thenaglecode.core.util.propeties.Bundle;
 import com.thenaglecode.core.util.propeties.RefreshablePropertyResourceBundle;
 
 import javax.faces.bean.ApplicationScoped;
@@ -19,7 +19,8 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class Constants implements Configuration{
 
-    @Inject @PropertyBundleResource(subsystem = "core.ui", file = "coreUI")
+    @Inject
+    @Bundle(subsystem="core.ui", name="coreUI")
     RefreshablePropertyResourceBundle uiBundle;
 
     public String getBOOTSTRAP_CDN_CSS(){

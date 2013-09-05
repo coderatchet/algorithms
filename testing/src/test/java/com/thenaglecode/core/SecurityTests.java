@@ -4,6 +4,7 @@ import com.thenaglecode.core.security.ejb.SecurityProcessorBean;
 import com.thenaglecode.core.security.entities.Group;
 import com.thenaglecode.core.security.entities.User;
 import com.thenaglecode.core.util.TransactionUtil;
+import org.junit.Assert;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -19,8 +20,6 @@ import javax.persistence.PersistenceContext;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import static junit.framework.Assert.assertNotNull;
 
 /**
  * Created with IntelliJ IDEA.
@@ -103,7 +102,7 @@ public class SecurityTests {
                     User u = (User) em.createQuery("select u from User u where u.username = :d")
                             .setParameter("d", username)
                             .getSingleResult();
-                    assertNotNull(u);
+                    Assert.assertNotNull(u);
                 }
             }
         });
