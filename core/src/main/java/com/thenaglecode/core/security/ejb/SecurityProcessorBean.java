@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 @DeclareRoles({Roles.ADMIN, Roles.SYSTEM})
 public class SecurityProcessorBean {
 
+
     private static final Logger log = Logger.getLogger(SecurityProcessorBean.class.getName());
 
     @PersistenceContext
