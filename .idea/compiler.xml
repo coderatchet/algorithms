@@ -31,7 +31,11 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="algorithms" target="1.7" />
+      <module name="core" target="1.7" />
+      <module name="system-setup" target="1.7" />
       <module name="testing" target="1.7" />
+      <module name="thenaglecode" target="1.7" />
+      <module name="web" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>
