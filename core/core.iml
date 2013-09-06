@@ -67,5 +67,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.2_spec:2.0.1.Final" level="project" />
     <orderEntry type="library" name="Maven: joda-time:joda-time:2.2" level="project" />
   </component>
+  <component name="POM File Configuration" pomFile="file://$MODULE_DIR$/pom.xml" />
 </module>
 
