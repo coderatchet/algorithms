@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/algorithms/algorithms.iml" filepath="$PROJECT_DIR$/algorithms/algorithms.iml" />
       <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/system-setup/system-setup.iml" filepath="$PROJECT_DIR$/system-setup/system-setup.iml" />
+      <module fileurl="file://$PROJECT_DIR$/system-setup/system-setup.iml" filepath="$PROJECT_DIR$/system-setup/system-setup.iml" />
       <module fileurl="file://$PROJECT_DIR$/testing/testing.iml" filepath="$PROJECT_DIR$/testing/testing.iml" />
       <module fileurl="file://$PROJECT_DIR$/thenaglecode.iml" filepath="$PROJECT_DIR$/thenaglecode.iml" />
       <module fileurl="file://$PROJECT_DIR$/web/web.iml" filepath="$PROJECT_DIR$/web/web.iml" />
