@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="thenaglecode">
-    <output-path>$PROJECT_DIR$/out/artifacts/thenaglecode</output-path>
-    <root id="archive" name="thenaglecode.war">
-      <element id="artifact" artifact-name="thenaglecode:war exploded" />
-    </root>
-  </artifact>
-</component>

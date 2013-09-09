@@ -71,6 +71,8 @@
         <dependency>
             <groupId>com.thenaglecode</groupId>
             <artifactId>web</artifactId>
+            <version>${application.web.version}</version>
+            <type>ear</type>
         </dependency>
         <dependency>
             <groupId>com.thenaglecode</groupId>
@@ -91,6 +93,7 @@
         <dependency>
             <groupId>org.jboss.spec</groupId>
             <artifactId>jboss-javaee-all-6.0</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

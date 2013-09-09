@@ -21,7 +21,10 @@
         <!-- the nagle code properties -->
         <thenaglecode.java.compiler.version>1.7</thenaglecode.java.compiler.version>
         <thenaglecode.java.home>C:\Program Files\Java\jdk1.7.0_25</thenaglecode.java.home>
-        <thenaglecode.version>1.0.0.Pre-Alpha</thenaglecode.version>
+        <thenaglecode.version>1.0.0.Pre-alpha</thenaglecode.version>
+        <application.core.version>1.0.0.Pre-alpha</application.core.version>
+        <application.algorithms.version>1.0.0.Pre-alpha</application.algorithms.version>
+        <application.web.version>1.0.0.Pre-Alpha</application.web.version>
 
         <!-- third party library versions format: "libraries.version.<groupid>.<artifactid>" -->
         <libraries.version.org.jboss.spec.jboss-javaee-6.0>3.0.2.Final
@@ -59,17 +62,17 @@
             <dependency>
                 <groupId>com.thenaglecode</groupId>
                 <artifactId>core</artifactId>
-                <version>${thenaglecode.version}</version>
+                <version>${application.core.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.thenaglecode</groupId>
                 <artifactId>web</artifactId>
-                <version>${thenaglecode.version}</version>
+                <version>${application.web.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.thenaglecode</groupId>
                 <artifactId>algorithms</artifactId>
-                <version>${thenaglecode.version}</version>
+                <version>${application.algorithms.version}</version>
             </dependency>
 
             <!-- third party libraries -->
@@ -125,6 +128,11 @@
                 <artifactId>slf4j-api</artifactId>
                 <version>1.7.5</version>
             </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>5.1.26</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -147,31 +155,6 @@
                     <source>${thenaglecode.java.compiler.version}</source>
                     <target>${thenaglecode.java.compiler.version}</target>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${plugins.version.org.jboss.as.plugins.jboss-as-maven-plugin}</version>
-                <configuration>
-                    <javaHome>${thenaglecode.java.home}</javaHome>
-                    <execute-commands/>
-                    <executeCommands/>
-                </configuration>
-
-                <!-- temporary fix for maven 3.1.x errors. keep updating and removing these and checking if they
-                     work then adding them back if they don't work still. get me pal?  -->
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <version>2.8</version> <!--override 2.6-->
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-enforcer-plugin</artifactId>
-                        <version>1.3.1</version> <!--override 1.2-->
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
