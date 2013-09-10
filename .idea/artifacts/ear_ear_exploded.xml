@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ear" name="ear:ear exploded">
+    <output-path>$PROJECT_DIR$/ear/target/ear-1.0.0.Pre-Alpha</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="ear/javaeeApplication/JavaEE" />
+      <element id="dir-copy" path="$PROJECT_DIR$/ear/src/main/application" />
+      <element id="directory" name="web-1.0.0.Pre-Alpha.war">
+        <element id="artifact" artifact-name="web:war exploded" />
+      </element>
+    </root>
+  </artifact>
+</component>
