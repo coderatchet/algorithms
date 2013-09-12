@@ -27,7 +27,6 @@ public class NumericOnlyTextFieldChangeListener implements ChangeListener<Number
     public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
         if(newValue.intValue() > oldValue.intValue()){
             char ch  = field.getText().charAt(oldValue.intValue());
-            System.out.println("Length:" + oldValue +"  "+ newValue +" "+ch);
 
             //Check if the new character is the number or other's
             if(!(ch >= '0' && ch <= '9')){

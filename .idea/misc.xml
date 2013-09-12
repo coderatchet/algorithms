@@ -24,14 +24,14 @@
     <option name="order">
       <list>
         <TagSortingSetting>
-          <option name="attributeName" value="directory" />
-          <option name="mode" value="SUBTAG" />
-          <option name="name" value="resources" />
-        </TagSortingSetting>
-        <TagSortingSetting>
           <option name="attributeName" value="id" />
           <option name="mode" value="SUBTAG" />
           <option name="name" value="pluginRepositories" />
+        </TagSortingSetting>
+        <TagSortingSetting>
+          <option name="attributeName" value="directory" />
+          <option name="mode" value="SUBTAG" />
+          <option name="name" value="resources" />
         </TagSortingSetting>
         <TagSortingSetting>
           <option name="mode" value="FIXED" />
@@ -139,18 +139,6 @@
         </TagSortingSetting>
         <TagSortingSetting>
           <option name="mode" value="FIXED" />
-          <option name="name" value="**/activation/os" />
-          <option name="order">
-            <list>
-              <option value="name" />
-              <option value="family" />
-              <option value="arch" />
-              <option value="version" />
-            </list>
-          </option>
-        </TagSortingSetting>
-        <TagSortingSetting>
-          <option name="mode" value="FIXED" />
           <option name="name" value="**/reporting/plugins/plugin" />
           <option name="order">
             <list>
@@ -164,9 +152,31 @@
           </option>
         </TagSortingSetting>
         <TagSortingSetting>
+          <option name="mode" value="FIXED" />
+          <option name="name" value="**/activation/os" />
+          <option name="order">
+            <list>
+              <option value="name" />
+              <option value="family" />
+              <option value="arch" />
+              <option value="version" />
+            </list>
+          </option>
+        </TagSortingSetting>
+        <TagSortingSetting>
           <option name="attributeName" value="name" />
           <option name="mode" value="SUBTAG" />
           <option name="name" value="contributors" />
+        </TagSortingSetting>
+        <TagSortingSetting>
+          <option name="mode" value="FIXED" />
+          <option name="name" value="exclusion" />
+          <option name="order">
+            <list>
+              <option value="artifactId" />
+              <option value="groupId" />
+            </list>
+          </option>
         </TagSortingSetting>
         <TagSortingSetting>
           <option name="mode" value="FIXED" />
@@ -179,16 +189,6 @@
               <option value="name" />
               <option value="url" />
               <option value="layout" />
-            </list>
-          </option>
-        </TagSortingSetting>
-        <TagSortingSetting>
-          <option name="mode" value="FIXED" />
-          <option name="name" value="exclusion" />
-          <option name="order">
-            <list>
-              <option value="artifactId" />
-              <option value="groupId" />
             </list>
           </option>
         </TagSortingSetting>
@@ -219,10 +219,6 @@
           </option>
         </TagSortingSetting>
         <TagSortingSetting>
-          <option name="mode" value="ARTIFACT" />
-          <option name="name" value="exclusions" />
-        </TagSortingSetting>
-        <TagSortingSetting>
           <option name="mode" value="FIXED" />
           <option name="name" value="parent" />
           <option name="order">
@@ -233,6 +229,10 @@
               <option value="relativePath" />
             </list>
           </option>
+        </TagSortingSetting>
+        <TagSortingSetting>
+          <option name="mode" value="ARTIFACT" />
+          <option name="name" value="exclusions" />
         </TagSortingSetting>
         <TagSortingSetting>
           <option name="mode" value="FIXED" />
@@ -313,6 +313,11 @@
           <option name="name" value="mailingLists" />
         </TagSortingSetting>
         <TagSortingSetting>
+          <option name="attributeName" value="type" />
+          <option name="mode" value="SUBTAG" />
+          <option name="name" value="filters" />
+        </TagSortingSetting>
+        <TagSortingSetting>
           <option name="mode" value="FIXED" />
           <option name="name" value="scm" />
           <option name="order">
@@ -323,11 +328,6 @@
               <option value="url" />
             </list>
           </option>
-        </TagSortingSetting>
-        <TagSortingSetting>
-          <option name="attributeName" value="type" />
-          <option name="mode" value="SUBTAG" />
-          <option name="name" value="filters" />
         </TagSortingSetting>
         <TagSortingSetting>
           <option name="mode" value="FIXED" />
@@ -353,11 +353,6 @@
           <option name="name" value="/project/repositories" />
         </TagSortingSetting>
         <TagSortingSetting>
-          <option name="attributeName" value="name" />
-          <option name="mode" value="SUBTAG" />
-          <option name="name" value="licenses" />
-        </TagSortingSetting>
-        <TagSortingSetting>
           <option name="mode" value="FIXED" />
           <option name="name" value="**/profile/build" />
           <option name="order">
@@ -372,6 +367,11 @@
               <option value="plugins" />
             </list>
           </option>
+        </TagSortingSetting>
+        <TagSortingSetting>
+          <option name="attributeName" value="name" />
+          <option name="mode" value="SUBTAG" />
+          <option name="name" value="licenses" />
         </TagSortingSetting>
         <TagSortingSetting>
           <option name="mode" value="FIXED" />
@@ -415,6 +415,11 @@
           </option>
         </TagSortingSetting>
         <TagSortingSetting>
+          <option name="attributeName" value="type" />
+          <option name="mode" value="SUBTAG" />
+          <option name="name" value="notifiers" />
+        </TagSortingSetting>
+        <TagSortingSetting>
           <option name="mode" value="FIXED" />
           <option name="name" value="license" />
           <option name="order">
@@ -425,11 +430,6 @@
               <option value="comments" />
             </list>
           </option>
-        </TagSortingSetting>
-        <TagSortingSetting>
-          <option name="attributeName" value="type" />
-          <option name="mode" value="SUBTAG" />
-          <option name="name" value="notifiers" />
         </TagSortingSetting>
         <TagSortingSetting>
           <option name="mode" value="FIXED" />
@@ -482,15 +482,9 @@
           </option>
         </TagSortingSetting>
         <TagSortingSetting>
-          <option name="mode" value="FIXED" />
-          <option name="name" value="site" />
-          <option name="order">
-            <list>
-              <option value="id" />
-              <option value="name" />
-              <option value="url" />
-            </list>
-          </option>
+          <option name="attributeName" value="id" />
+          <option name="mode" value="SUBTAG" />
+          <option name="name" value="executions" />
         </TagSortingSetting>
         <TagSortingSetting>
           <option name="mode" value="FIXED" />
@@ -503,9 +497,15 @@
           </option>
         </TagSortingSetting>
         <TagSortingSetting>
-          <option name="attributeName" value="id" />
-          <option name="mode" value="SUBTAG" />
-          <option name="name" value="executions" />
+          <option name="mode" value="FIXED" />
+          <option name="name" value="site" />
+          <option name="order">
+            <list>
+              <option value="id" />
+              <option value="name" />
+              <option value="url" />
+            </list>
+          </option>
         </TagSortingSetting>
         <TagSortingSetting>
           <option name="mode" value="FIXED" />
@@ -592,10 +592,11 @@
         </TagSortingSetting>
         <TagSortingSetting>
           <option name="mode" value="FIXED" />
-          <option name="name" value="/distributionManagement/repository" />
+          <option name="name" value="/project/repositories/repository" />
           <option name="order">
             <list>
-              <option value="uniqueVersion" />
+              <option value="releases" />
+              <option value="snapshots" />
               <option value="id" />
               <option value="name" />
               <option value="url" />
@@ -605,11 +606,10 @@
         </TagSortingSetting>
         <TagSortingSetting>
           <option name="mode" value="FIXED" />
-          <option name="name" value="/project/repositories/repository" />
+          <option name="name" value="/distributionManagement/repository" />
           <option name="order">
             <list>
-              <option value="releases" />
-              <option value="snapshots" />
+              <option value="uniqueVersion" />
               <option value="id" />
               <option value="name" />
               <option value="url" />

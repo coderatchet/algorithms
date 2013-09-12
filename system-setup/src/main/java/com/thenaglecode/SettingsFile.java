@@ -1,6 +1,8 @@
 package com.thenaglecode;
 
 import com.sun.istack.internal.NotNull;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.vfs2.FileObject;
 
 import java.io.*;
 
@@ -26,17 +28,18 @@ public class SettingsFile {
                 "socket = " + socket;
     }
 
-    public static SettingsFile fromFile(@NotNull File file) throws IOException {
-        FileReader in = new FileReader(file);
-        BufferedReader br = new BufferedReader(in);
-        String currentLine = br.readLine();
+    public static SettingsFile fromFile(@NotNull FileObject file) throws IOException {
+        StringWriter wr = new StringWriter();
+        IOUtils.copy(file.getContent().getInputStream(), wr, "UTF-8");
+        String[] lines = wr.toString().split("\n");
+
         SettingsFile settingsFile = new SettingsFile();
-        while (currentLine != null) {
-            currentLine = currentLine.trim();
-            if(currentLine.startsWith("[")){
-                settingsFile.name = currentLine.substring(1, currentLine.indexOf("]"));
+        for(String line : lines) {
+            line = line.trim();
+            if(line.startsWith("[")){
+                settingsFile.name = line.substring(1, line.indexOf("]"));
             }
-            String[] split = currentLine.split("=");
+            String[] split = line.split("=");
             if (split.length == 2) {
                 switch (split[0].trim()) {
                     case "basedir":
@@ -50,7 +53,6 @@ public class SettingsFile {
                         break;
                 }
             }
-            currentLine = br.readLine();
         }
         return settingsFile.isValid() ? settingsFile : null;
     }

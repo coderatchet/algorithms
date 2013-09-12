@@ -6,9 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -19,6 +17,9 @@ import org.apache.commons.vfs2.VFS;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,36 +36,67 @@ public class SettingsPage {
     private static Map<String, SettingsFile> settings;
     private static FileObject configFolder;
     private static final StackPane flipPane = new StackPane();
-    private static GridPane side1;
-    private static GridPane side2;
+    private static VBox side1;
+    private static VBox side2;
     private static final TextArea output = new TextArea();
     private static String selectedSetting;
 
+    static {
+        output.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+    }
+
     public static GridPane render(){
         GridPane main = new GridPane();
-        side1 = new GridPane();
+        side1 = new VBox();
         flipPane.getChildren().add(side1);
         try {
-            configFolder = VFS.getManager().resolveFile("file://" + SettingsFileUtil.CONFIG_FILE_FOLDER);
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            URL url2 = classLoader.getResource("./com/thenaglecode/config");
+            if(url2 == null){
+                //create the folder
+                classLoader.getResource("./com/thenaglecode");
+            }
+            configFolder = VFS.getManager().resolveFile("file://");
             settings = SettingsFileUtil.getAllSettings();
+            if(!configFolder.exists()){
+                throw new IOException("config folder is missing!");
+            }
         } catch (IOException e) {
-            side1.add(new TextArea("Error! " + e.getMessage()), 0, 0);
+            side1.getChildren().add(new TextArea("Error! " + e.getMessage()));
+            main.add(side1, 0, 0);
+            return main;
+        } catch (URISyntaxException e) {
+            side1.getChildren().add(new TextArea("Error! " + e.getMessage()));
+            main.add(side1, 0, 0);
+            return main;
         }
-        side1.setHgap(10);
-        side1.setVgap(10);
+        side1.setSpacing(10);
+        side1.setPadding(new Insets(10));
+        HBox editOptions = new HBox();
+        editOptions.setSpacing(10);
         Button addButton = new Button("add");
-        side1.add(addButton, 0, 0);
         addButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-
+                SettingsFile settingsFile = new SettingsFile();
+                doEditSettingsPage(settingsFile);
             }
         });
 
         Button removeButton = new Button("remove");
-        side1.add(removeButton, 1, 0);
+        removeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                // todo implement remove
+                // check whether the service has been uninstalled yet
+                // remove the configuration from the config folder
+                // refresh the list
+            }
+        });
 
-        final ListView<String> databaseConfigurationListView = new ListView<String>();
+        editOptions.getChildren().addAll(addButton, removeButton);
+
+        final ListView<String> databaseConfigurationListView = new ListView<>();
         List<String> listItems = new ArrayList<>();
         for(String settingName : settings.keySet()){
             if(selectedSetting != null) {
@@ -73,6 +105,7 @@ public class SettingsPage {
             }
             listItems.add(settingName);
         }
+        databaseConfigurationListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         databaseConfigurationListView.getSelectionModel().selectedItemProperty().addListener(
                 new ChangeListener<String>() {
                     @Override
@@ -81,28 +114,25 @@ public class SettingsPage {
                     }
                 }
         );
+
         ObservableList<String> items = FXCollections.observableArrayList(listItems);
         databaseConfigurationListView.setItems(items);
         databaseConfigurationListView.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
-        databaseConfigurationListView.setPrefSize(100, 200);
-        side1.add(databaseConfigurationListView, 0, 1, 4, 6);
+        databaseConfigurationListView.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        databaseConfigurationListView.setPrefSize(150, 200);
+        side1.getChildren().addAll(editOptions, databaseConfigurationListView);
 
         // add the buttons on the side
         Button install = new Button("Install");
         install.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(install, Priority.ALWAYS);
         Button uninstall = new Button("Uninstall");
         uninstall.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(uninstall, Priority.ALWAYS);
         Button start = new Button("Start");
         start.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(start, Priority.ALWAYS);
         Button stop = new Button("Stop");
         stop.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(stop, Priority.ALWAYS);
         Button edit = new Button("Edit");
         edit.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(edit, Priority.ALWAYS);
 
         //todo set on mouse clicked events
 
@@ -111,51 +141,7 @@ public class SettingsPage {
             public void handle(MouseEvent mouseEvent) {
                 if(selectedSetting == null) return;
                 final SettingsFile selectedSettingsFile = settings.get(selectedSetting);
-                side2 = new GridPane();
-                Button back = new Button("Back");
-                back.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        flipPane.getChildren().clear();
-                        flipPane.getChildren().add(side1);
-                    }
-                });
-                Button save = new Button("Save");
-                final Label warning = new Label();
-                save.setOnKeyTyped(new EventHandler<KeyEvent>() {
-                    @Override
-                    public void handle(KeyEvent keyEvent) {
-                        if(selectedSettingsFile.isValid()){
-                            try {
-                                FileObject toCreate = configFolder.resolveFile("./" + selectedSettingsFile.name + ".cnf");
-                                if(toCreate.exists()){
-                                    toCreate.delete();
-                                }
-                                toCreate.createFile();
-                                BufferedWriter wr = new BufferedWriter(new FileWriter(toCreate.getName().getPath()));
-                                wr.write(selectedSettingsFile.toString());
-                            } catch (IOException e) {
-                                warning.setText("Error saving file");
-                                warning.setTextFill(Color.FIREBRICK);
-                            }
-                        } else {
-                            warning.setText("Settings file not valid");
-                            warning.setTextFill(Color.FIREBRICK);
-                        }
-                    }
-                });
-
-                side2.add(back, 0, 1);
-                side2.add(save, 1, 1);
-                side2.add(warning, 0, 2, 2, 1);
-                try {
-                    side2.add(SettingsFileUtil.render(selectedSettingsFile), 0, 0, 2, 1);
-                    flipPane.getChildren().clear();
-                    flipPane.getChildren().add(side2);
-                } catch (FileSystemException e) {
-                    side2.add(new Label("Could not read settings!"), 0, 0);
-                }
-
+                doEditSettingsPage(selectedSettingsFile);
             }
         });
 
@@ -166,7 +152,7 @@ public class SettingsPage {
         options.getChildren().addAll(install, uninstall, start, stop, edit);
 
         main.setHgap(10);
-        main.setPadding(new Insets(15));
+        main.setPadding(new Insets(10));
         main.add(flipPane, 0, 0);
         main.add(options, 1, 0);
         main.add(output, 2, 0);
@@ -174,5 +160,62 @@ public class SettingsPage {
         return main;
     }
 
+    private static void doEditSettingsPage(final SettingsFile selectedSettingsFile) {
+        side2 = new VBox();
+        side2.setSpacing(10);
+        side2.setPadding(new Insets(10));
+        Button back = new Button("Back");
+        back.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                flipPane.getChildren().clear();
+                flipPane.getChildren().add(side1);
+                side2 = null;
+            }
+        });
+        Button save = new Button("Save");
+        final Label message = new Label();
+        save.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (selectedSettingsFile.isValid()) {
+                    try {
+                        FileObject toCreate = configFolder.resolveFile("./" + selectedSettingsFile.name + ".cnf");
+                        if (toCreate.exists()) {
+                            toCreate.delete();
+                        }
+                        toCreate.createFile();
+                        BufferedWriter wr = new BufferedWriter(new FileWriter(toCreate.getName().getPath()));
+                        wr.write(selectedSettingsFile.toString());
+                        message.setText("Saved!");
+                        message.setTextFill(Color.GREENYELLOW);
+                    } catch (IOException e) {
+                        message.setText("Error saving file");
+                        message.setTextFill(Color.FIREBRICK);
+                    }
+                } else {
+                    message.setText("Settings file not valid");
+                    message.setTextFill(Color.FIREBRICK);
+                }
+            }
+        });
 
+        HBox buttons = new HBox();
+        buttons.setSpacing(10);
+        try {
+            buttons.getChildren().addAll(back, save);
+            side2.getChildren().addAll(SettingsFileUtil.render(selectedSettingsFile), buttons, message);
+            flipPane.getChildren().clear();
+            flipPane.getChildren().add(side2);
+        } catch (FileSystemException e) {
+            Label errorMessage = new Label("Could not read settings!");
+            errorMessage.setTextFill(Color.FIREBRICK);
+            buttons.getChildren().add(back);
+            side2.getChildren().addAll(errorMessage, buttons);
+        }
+    }
+
+    private static void refreshList() throws IOException {
+        settings = SettingsFileUtil.getAllSettings();
+    }
 }
