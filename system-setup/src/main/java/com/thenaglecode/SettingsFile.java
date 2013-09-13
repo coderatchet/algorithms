@@ -2,6 +2,7 @@ package com.thenaglecode;
 
 import com.sun.istack.internal.NotNull;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileObject;
 
 import java.io.*;
@@ -31,7 +32,7 @@ public class SettingsFile {
     public static SettingsFile fromFile(@NotNull FileObject file) throws IOException {
         StringWriter wr = new StringWriter();
         IOUtils.copy(file.getContent().getInputStream(), wr, "UTF-8");
-        String[] lines = wr.toString().split("\n");
+        String[] lines = StringUtils.split(wr.toString(), '\n');
 
         SettingsFile settingsFile = new SettingsFile();
         for(String line : lines) {

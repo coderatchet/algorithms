@@ -4,29 +4,20 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.VFS;
-import org.apache.commons.vfs2.provider.local.WindowsFileName;
-import sun.nio.fs.WindowsFileSystemProvider;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -42,19 +33,19 @@ import java.util.Map;
  */
 public class SettingsFileUtil {
 
-    public static String CONFIG_FILE_FOLDER;
-    public static final String CONFIG_FOLDER_ABSOLUTE_PATH = new File(CONFIG_FILE_FOLDER).getAbsolutePath();
+    public static final String CONFIG_FILE_FOLDER_RESOURCE = "com/thenaglecode/config";
+    public static String CONFIG_FOLDER_ABSOLUTE_PATH;
 
     static {
-        try {
-            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-            URL url1 = classLoader.getResource("com/thenaglecode/config");
-            URI uri1 = url1.toURI();
-            URL url2 = classLoader.getResource("./config");
-            URI uri2 = url2.toURI();
-            CONFIG_FILE_FOLDER = new File(url1.toURI()).getAbsolutePath();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        URL url1 = classLoader.getResource("");
+        if (url1 != null) {
+            File file = new File(url1.getPath() + CONFIG_FILE_FOLDER_RESOURCE);
+            if (!file.exists()) {
+                //noinspection ResultOfMethodCallIgnored
+                file.mkdirs();
+            }
+            CONFIG_FOLDER_ABSOLUTE_PATH = file.getAbsolutePath();
         }
     }
 
@@ -62,10 +53,10 @@ public class SettingsFileUtil {
 
     public static void reloadSettings() throws IOException {
         settings.clear();
-        FileObject folder = VFS.getManager().resolveFile("file://" + CONFIG_FILE_FOLDER);
+        FileObject folder = VFS.getManager().resolveFile("file://" + CONFIG_FOLDER_ABSOLUTE_PATH);
         if (folder.getType().hasChildren()) {
             for (FileObject file : folder.getChildren()) {
-                if(file.getName().getBaseName().endsWith(".cnf")){
+                if (file.getName().getBaseName().endsWith(".cnf")) {
                     SettingsFile setting = SettingsFile.fromFile(file);
                     settings.put(setting.name, setting);
                 }

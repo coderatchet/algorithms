@@ -15,6 +15,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.VFS;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
@@ -50,22 +51,12 @@ public class SettingsPage {
         side1 = new VBox();
         flipPane.getChildren().add(side1);
         try {
-            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-            URL url2 = classLoader.getResource("./com/thenaglecode/config");
-            if(url2 == null){
-                //create the folder
-                classLoader.getResource("./com/thenaglecode");
-            }
-            configFolder = VFS.getManager().resolveFile("file://");
+            configFolder = VFS.getManager().resolveFile("file://" + SettingsFileUtil.CONFIG_FOLDER_ABSOLUTE_PATH);
             settings = SettingsFileUtil.getAllSettings();
             if(!configFolder.exists()){
                 throw new IOException("config folder is missing!");
             }
         } catch (IOException e) {
-            side1.getChildren().add(new TextArea("Error! " + e.getMessage()));
-            main.add(side1, 0, 0);
-            return main;
-        } catch (URISyntaxException e) {
             side1.getChildren().add(new TextArea("Error! " + e.getMessage()));
             main.add(side1, 0, 0);
             return main;
