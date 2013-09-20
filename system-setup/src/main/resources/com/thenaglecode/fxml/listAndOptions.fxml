@@ -1,0 +1,20 @@
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MultipleSelectionModel?>
+<GridPane fx:controller="com.thenaglecode.ListAndOptionsController" xmlns:fx="http://javafx.com/fxml">
+    <HBox spacing="10">
+        <ListView fx:id="settingsListView" />
+        <VBox spacing="10">
+            <Button fx:id="addButton" text="Add" maxWidth="Infinity" />
+            <Button fx:id="removeButton" text="Remove" maxWidth="Infinity" />
+            <Button fx:id="installButton" text="Install" maxWidth="Infinity" />
+            <Button fx:id="uninstallButton" text="Uninstall" maxWidth="Infinity" />
+            <Button fx:id="startButton" text="Start" maxWidth="Infinity" />
+            <Button fx:id="stopButton" text="Stop" maxWidth="Infinity" />
+            <Button fx:id="refreshButton" text="Refresh" maxWidth="Infinity" />
+        </VBox>
+    </HBox>
+</GridPane>

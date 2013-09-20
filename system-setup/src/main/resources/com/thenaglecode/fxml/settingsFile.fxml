@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import com.sun.javafx.scene.control.skin.IntegerField?>
+<GridPane fx:controller="com.thenaglecode.SettingsFileController"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+    <padding>
+        <Insets top="25" right="25" bottom="10" left="25"/>
+    </padding>
+    <Label id="nameLabel" text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" minWidth="170"
+           alignment="CENTER_RIGHT"/>
+    <TextField fx:id="nameField" alignment="CENTER_LEFT" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+    <Label id="baseDirLabel" alignment="CENTER_RIGHT" text="Base directory:" GridPane.columnIndex="0"
+           GridPane.rowIndex="1" maxWidth="Infinity" GridPane.hgrow="ALWAYS"/>
+
+    <HBox GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS"
+          maxWidth="Infinity" spacing="10">
+        <ComboBox fx:id="basedirChoice" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+        <Button onAction="#reloadMySqlHomes" text="r" maxWidth="30" HBox.hgrow="ALWAYS"/>
+    </HBox>
+    <Label id="portLabel" text="Port:" alignment="CENTER_RIGHT" GridPane.columnIndex="0" GridPane.rowIndex="2"
+           maxWidth="Infinity" GridPane.hgrow="ALWAYS"/>
+    <TextField GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.halignment="LEFT" fx:id="portField"/>
+    <Label id="socketLabel" text="Socket:" alignment="CENTER_RIGHT" GridPane.columnIndex="0" GridPane.rowIndex="3"
+           maxWidth="Infinity" GridPane.hgrow="ALWAYS"/>
+    <TextField fx:id="socketField" GridPane.rowIndex="3" GridPane.columnIndex="1" alignment="CENTER_LEFT"/>
+    <Label fx:id="error" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+
+    <HBox GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.columnSpan="2" spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Save" onAction="#save"/>
+        <Button text="Back" fx:id="back"/>
+    </HBox>
+</GridPane>
