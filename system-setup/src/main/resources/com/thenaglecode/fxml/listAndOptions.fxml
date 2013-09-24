@@ -15,6 +15,7 @@
             <Button fx:id="startButton" text="Start" maxWidth="Infinity" />
             <Button fx:id="stopButton" text="Stop" maxWidth="Infinity" />
             <Button fx:id="refreshButton" text="Refresh" maxWidth="Infinity" />
+            <Button fx:id="echoButton" text="Test" maxWidth="Infinity" />
         </VBox>
     </HBox>
 </GridPane>

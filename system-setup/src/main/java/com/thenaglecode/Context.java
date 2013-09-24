@@ -7,6 +7,7 @@ import org.apache.commons.vfs2.VFS;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,44 +25,14 @@ public class Context {
         return INSTANCE;
     }
 
-
     private List<SettingsFile> settings = new ArrayList<>();
     private List<File> mySqlHomes = new ArrayList<>();
 
-    public List<SettingsFile> getSettings(){
-        if(settings == null) {
-            settings = initializeSettings();
-        }
-        return settings;
+    public List<SettingsFile> getSettings() throws IOException {
+        return SettingsFileUtil.getSettings();
     }
 
-    public void refreshSettings(){
-        settings = initializeSettings();
-    }
-
-    private List<SettingsFile> initializeSettings() {
-        List<SettingsFile> settings = new ArrayList<>();
-        try {
-            FileObject file = VFS.getManager().resolveFile("file://" + SettingsFileUtil.CONFIG_FOLDER_ABSOLUTE_PATH);
-            if(file.getChildren() != null){
-                for(FileObject child : file.getChildren()){
-                    if(child.getName().getBaseName().endsWith(".cnf")){
-                        SettingsFile settingsFile = SettingsFile.fromFile(child);
-                        settings.add(settingsFile);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return settings;
-    }
-
-    public List<File> getMySqlHomes() throws FileSystemException {
-        return SettingsFileUtil.getAllMySqlHomes();
-    }
-
-    public void reloadMySqlHomes() throws FileSystemException {
+    public void reloadMySqlHomes() throws FileSystemException, URISyntaxException {
         SettingsFileUtil.reloadAllMySqlHomes();
     }
 

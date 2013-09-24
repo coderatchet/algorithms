@@ -1,6 +1,8 @@
 package com.thenaglecode;
 
 import com.sun.istack.internal.NotNull;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileObject;
@@ -15,14 +17,30 @@ import java.io.*;
  * //todo implement
  */
 public class SettingsFile {
-    public String name;
+    @NotNull private SimpleStringProperty nameProperty = new SimpleStringProperty();
     public String baseDir;
     public int port;
     public String socket = "mypipe1";
 
+    final public String getName(){
+        return nameProperty.get();
+    }
+
+    final public void setName(String name){
+        nameProperty.setValue(name);
+    }
+
+    public SimpleStringProperty nameProperty(){
+        return nameProperty;
+    }
+
+    public void addChangeListener(ChangeListener<String> changeListener){
+        nameProperty.addListener(changeListener);
+    }
+
     @Override
     public String toString() {
-        return "[mysqld]\n"
+        return "["+ getName() +"]\n"
                 + "basedir = " + baseDir + "\n" +
                 "port = " + port + "\n" +
                 "enable-named-pipe\n" +
@@ -38,7 +56,7 @@ public class SettingsFile {
         for(String line : lines) {
             line = line.trim();
             if(line.startsWith("[")){
-                settingsFile.name = line.substring(1, line.indexOf("]"));
+                settingsFile.setName(line.substring(1, line.indexOf("]")));
             }
             String[] split = line.split("=");
             if (split.length == 2) {
@@ -58,10 +76,9 @@ public class SettingsFile {
         return settingsFile.isValid() ? settingsFile : null;
     }
 
-
     public boolean isValid() {
         return
-                name != null && !name.isEmpty()
+                getName() != null && !getName().isEmpty()
                         && baseDir != null && !baseDir.isEmpty()
                         && port > 0
                         && socket != null && !socket.isEmpty();

@@ -24,13 +24,13 @@
                 <dependency>
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-arquillian-container-remote</artifactId>
-                    <version>${libraries.version.org.jboss.as.jboss-as-arquillian-container-remote}</version>
+                    <version>7.2.0.Final</version>
                     <scope>test</scope>
                 </dependency>
                 <dependency>
                     <groupId>org.jboss.arquillian.protocol</groupId>
                     <artifactId>arquillian-protocol-servlet</artifactId>
-                    <version>${libraries.version.org.jboss.arqullian.protocol.arquillian-protocol-servlet}</version>
+                    <version>1.1.1.Final</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>

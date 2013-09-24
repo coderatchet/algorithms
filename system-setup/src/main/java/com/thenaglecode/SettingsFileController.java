@@ -1,7 +1,9 @@
 package com.thenaglecode;
 
+import com.sun.istack.internal.NotNull;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -18,6 +20,7 @@ import org.apache.commons.vfs2.VFS;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +33,7 @@ import java.util.concurrent.Callable;
  * Date: 16/09/13
  * Time: 18:18
  */
-public class SettingsFileController implements Initializable{
+public class SettingsFileController implements Initializable {
 
     @FXML public Button back;
     @FXML public TextField portField;
@@ -67,9 +70,9 @@ public class SettingsFileController implements Initializable{
         return socketField;
     }
 
-    public void setSettingsFile(SettingsFile settingsFile) {
+    public void setSettingsFile(@NotNull SettingsFile settingsFile) {
         this.settingsFile = settingsFile;
-        getNameField().setText(settingsFile.name);
+        getNameField().setText(settingsFile.getName());
         for(File file : getBasedirComboBox().getItems()){
             if(file.getAbsolutePath().equals(settingsFile.baseDir)){
                 getBasedirComboBox().getSelectionModel().select(file);
@@ -78,36 +81,28 @@ public class SettingsFileController implements Initializable{
         }
         getPortField().setText(String.valueOf(settingsFile.port));
         getSocketField().setText(settingsFile.socket);
+        for(File file : basedirChoice.getItems()){
+            if(file.getAbsolutePath().equals(settingsFile.baseDir))
+                basedirChoice.getSelectionModel().select(file);
+        }
     }
-
-    public void setBackAction(final Callable<Void> backAction){
-        back.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                try {
-                    backAction.call();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
 
     @FXML
     public void save() throws IOException {
         if(settingsFile == null) return;
-        settingsFile.name = nameField.getText();
-        settingsFile.port = Integer.valueOf(socketField.getText());
+        settingsFile.port = Integer.valueOf(portField.getText());
         settingsFile.socket = socketField.getText();
+        settingsFile.baseDir = basedirChoice.getSelectionModel().getSelectedItem().getAbsolutePath();
         if(!settingsFile.isValid()){
             return;
         }
         FileObject configFolder = VFS.getManager().resolveFile("file://" + SettingsFileUtil.CONFIG_FOLDER_ABSOLUTE_PATH);
-        FileObject settings = configFolder.resolveFile("./"+ settingsFile.name + ".cnf");
+        FileObject settings = configFolder.resolveFile("./"+ settingsFile.getName() + ".cnf");
         settings.delete();
         settings.createFile();
         IOUtils.copy(new StringReader(settingsFile.toString()), settings.getContent().getOutputStream());
+        error.setText("Saved!");
+        error.setTextFill(Color.DARKSEAGREEN);
     }
 
     @Override
@@ -127,8 +122,8 @@ public class SettingsFileController implements Initializable{
                     };
                 }
             });
-            SettingsFileUtil.getAllMySqlHomes();
-        } catch (FileSystemException e) {
+            getBasedirComboBox().setItems(FXCollections.observableList(SettingsFileUtil.getAllMySqlHomes()));
+        } catch (FileSystemException | URISyntaxException e) {
             e.printStackTrace();
         }
         getBasedirComboBox().getSelectionModel().selectedItemProperty().addListener(new ChangeListener<File>() {
@@ -140,7 +135,7 @@ public class SettingsFileController implements Initializable{
         getNameField().textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
-                settingsFile.name = s2;
+                settingsFile.setName(s2);
             }
         });
         List<File> list = new ArrayList<>();
@@ -150,7 +145,7 @@ public class SettingsFileController implements Initializable{
     public void reloadMySqlHomes(ActionEvent actionEvent) {
         try {
             Context.getInstance().reloadMySqlHomes();
-        } catch (FileSystemException e) {
+        } catch (FileSystemException | URISyntaxException e) {
             getError().setText(e.getMessage());
             getError().setTextFill(Color.FIREBRICK);
         }

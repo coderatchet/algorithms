@@ -21,6 +21,11 @@
             <groupId>org.jboss.spec</groupId>
             <artifactId>jboss-javaee-all-6.0</artifactId>
         </dependency>
+        <!-- for invalid dependencies -->
+        <dependency>
+            <groupId>xalan</groupId>
+            <artifactId>xalan</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

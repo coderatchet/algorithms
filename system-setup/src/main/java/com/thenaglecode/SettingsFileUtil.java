@@ -3,9 +3,11 @@ package com.thenaglecode;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.VFS;
+import org.apache.commons.vfs2.provider.local.LocalFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,34 +41,37 @@ public class SettingsFileUtil {
         }
     }
 
-    public static Map<String, SettingsFile> settings = new HashMap<>();
+    public static List<SettingsFile> settings;
 
     public static void reloadSettings() throws IOException {
-        settings.clear();
+        if(settings != null) settings.clear();
+        else settings = new ArrayList<>();
         FileObject folder = VFS.getManager().resolveFile("file://" + CONFIG_FOLDER_ABSOLUTE_PATH);
         if (folder.getType().hasChildren()) {
             for (FileObject file : folder.getChildren()) {
                 if (file.getName().getBaseName().endsWith(".cnf")) {
                     SettingsFile setting = SettingsFile.fromFile(file);
-                    settings.put(setting.name, setting);
+                    settings.add(setting);
                 }
             }
         }
     }
 
-    public static Map<String, SettingsFile> getAllSettings() throws IOException {
-        reloadSettings();
+    public static List<SettingsFile> getSettings() throws IOException {
+        if(settings == null) {
+            reloadSettings();
+        }
         return settings;
     }
 
-    public static List<File> getAllMySqlHomes() throws FileSystemException {
+    public static List<File> getAllMySqlHomes() throws FileSystemException, URISyntaxException {
         if(mySqlHomeFolders == null) {
             reloadAllMySqlHomes();
         }
         return mySqlHomeFolders;
     }
 
-    public static void reloadAllMySqlHomes() throws FileSystemException {
+    public static void reloadAllMySqlHomes() throws FileSystemException, URISyntaxException {
         if(mySqlHomeFolders == null){
             mySqlHomeFolders = new ArrayList<>();
         } else {
@@ -77,10 +82,9 @@ public class SettingsFileUtil {
         for (FileObject file : programFiles.getChildren()) {
             if (file.getName().getBaseName().startsWith("mysql")
                     && file.getType().hasChildren()) {
-                File f = new File(file.getName().getURI());
-                if(f.exists()){
-                    mySqlHomeFolders.add(f);
-                }
+                String justTheGoods = file.getName().getURI();
+                justTheGoods = justTheGoods.substring("file:///".length());
+                mySqlHomeFolders.add(new File(justTheGoods));
             }
         }
     }

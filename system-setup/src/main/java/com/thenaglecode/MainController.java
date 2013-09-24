@@ -1,5 +1,6 @@
 package com.thenaglecode;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -16,6 +17,10 @@ import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
 import org.apache.commons.vfs2.FileSystemException;
 
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -28,6 +33,7 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable{
     @FXML
     public TextArea output;
+    private Console console;
     @FXML
     private GridPane settingsFilePane;
     @FXML
@@ -45,7 +51,7 @@ public class MainController implements Initializable{
         Context currentContext = Context.getInstance();
         try {
             SettingsFileUtil.getAllMySqlHomes();
-        } catch (FileSystemException e) {
+        } catch (FileSystemException | URISyntaxException e) {
             e.printStackTrace();
         }
     }
@@ -53,6 +59,8 @@ public class MainController implements Initializable{
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initialize();
         final Context context = Context.getInstance();
+        console = new Console(output);
+        PrintStream ps = new PrintStream(console, true);
         listAndOptionsPaneController.getSettingsListView().setCellFactory(new Callback<ListView<SettingsFile>, ListCell<SettingsFile>>() {
             @Override
             public ListCell<SettingsFile> call(ListView<SettingsFile> settingsFileListView) {
@@ -60,16 +68,22 @@ public class MainController implements Initializable{
                     @Override
                     protected void updateItem(SettingsFile settingsFile, boolean empty) {
                         super.updateItem(settingsFile, empty);
-                        if(!empty) setText(settingsFile.name == null ? "" : settingsFile.name);
+                        if(!empty) setText(settingsFile == null ? "" : settingsFile.getName());
                     }
                 };
             }
         });
-        ObservableList<SettingsFile> list = FXCollections.observableList(context.getSettings());
+        ObservableList<SettingsFile> list = null;
+        try {
+            list = FXCollections.observableList(context.getSettings());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         listAndOptionsPaneController.getSettingsListView().getSelectionModel().selectedItemProperty().addListener(new ChangeListener<SettingsFile>() {
             @Override
             public void changed(ObservableValue<? extends SettingsFile> observableValue, SettingsFile settingsFile, SettingsFile settingsFile2) {
-                settingsFilePaneController.setSettingsFile(settingsFile2);
+                if(settingsFile2 != null)
+                    settingsFilePaneController.setSettingsFile(settingsFile2);
             }
         });
         listAndOptionsPaneController.getSettingsListView().setItems(list);
@@ -77,9 +91,63 @@ public class MainController implements Initializable{
         listAndOptionsPaneController.getAddButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                context.getSettings().add(new SettingsFile());
+                SettingsFile settingsFile = new SettingsFile();
+                settingsFile.nameProperty().addListener(listAndOptionsPaneController);
+                try {
+                    context.getSettings().add(settingsFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 listAndOptionsPaneController.getSettingsListView().getSelectionModel().selectLast();
             }
         });
+        listAndOptionsPaneController.getEchoButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    output.clear();
+                    CommandHelper.runCommandDisplayInOutput(console, "echo", new String[]{"test"}, null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        listAndOptionsPaneController.getInstallButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                refreshData();
+                SettingsFile item = listAndOptionsPaneController.getSettingsListView().getSelectionModel().getSelectedItem();
+                if(ServiceMuncher.services.get(item.getName()) != null){
+                    output.clear();
+                    output.setText("The Database " + item.getName() + " is already installed!");
+                } else {
+                    try {
+                        CommandHelper.runCommandDisplayInOutput(console, "mysqld",
+                                new String[] {
+                                        "--install",
+                                        item.getName(),
+                                        "--defaults-file=\"" + SettingsFileUtil.CONFIG_FOLDER_ABSOLUTE_PATH + "\\" + item.getName() + ".cnf\""
+                                },
+                                item.baseDir + "\\bin\\");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        listAndOptionsPaneController.getRefreshButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                refreshData();
+            }
+        });
+    }
+
+    public void refreshData() {
+        try {
+            CommandHelper.serviceMunchCommandOutput("sc", new String[]{"queryex"}, ".");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
